@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma'
-import { createProduct } from './actions'
+import { createProduct, deleteProduct } from './actions'
 
 export default async function AdminPage() {
   // Traemos los productos directamente de la base de datos de Supabase
@@ -52,6 +52,16 @@ export default async function AdminPage() {
               />
             </div>
 
+            <div>
+              <label className="block text-sm font-medium mb-1">URL de la Imagen (Opcional)</label>
+              <textarea 
+                name="image_url"
+                rows={3}
+                className="w-full bg-zinc-950 border border-zinc-800 p-2 rounded-md text-white focus:outline-none focus:border-white" 
+                placeholder="Ej: https://example.com/image.jpg" 
+              />
+            </div>
+
             <button 
               type="submit" 
               className="bg-white text-black font-bold py-2 rounded-md mt-4 hover:bg-gray-200 transition-colors"
@@ -76,7 +86,8 @@ export default async function AdminPage() {
               <tbody>
                 {products.length === 0 ? (
                   <tr>
-                    <td colSpan={2} className="py-4 text-center text-zinc-500">
+                    {/* Cambiamos colSpan a 3 porque ahora hay 3 columnas */}
+                    <td colSpan={3} className="py-4 text-center text-zinc-500">
                       No hay productos registrados aún.
                     </td>
                   </tr>
@@ -85,7 +96,18 @@ export default async function AdminPage() {
                     <tr key={product.id} className="border-b border-zinc-800/50 hover:bg-zinc-800/20 transition-colors">
                       <td className="py-4 px-2 font-medium">{product.name}</td>
                       <td className="py-4 px-2">${product.price.toLocaleString('es-CO')}</td>
-                    </tr>
+                      <td className="py-4 px-2 text-right">
+                        <form action={deleteProduct}>
+                          <input type="hidden" name="id" value={product.id} />
+                          <button 
+                            type="submit" 
+                            className="text-red-500 text-sm hover:text-red-400 font-semibold"
+                          >
+                            Eliminar
+                          </button>
+                        </form>
+                      </td>
+                    </tr> 
                   ))
                 )}
               </tbody>
