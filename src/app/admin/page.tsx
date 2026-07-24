@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma'
 import { createProduct, deleteProduct } from './actions'
+import ImageUpload from '@/components/ImageUpload'
 
 export default async function AdminPage() {
   // Traemos los productos directamente de la base de datos de Supabase
@@ -54,13 +55,7 @@ export default async function AdminPage() {
 
             <div>
               <label className="block text-sm font-medium mb-1">Archivo de la Imagen</label>
-              <input 
-                type="file" 
-                name="image" 
-                accept="image/*"
-                className="w-full bg-zinc-950 border border-zinc-800 p-2 rounded-md text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-white file:text-black hover:file:bg-zinc-200 cursor-pointer"
-                required
-              />
+              <ImageUpload />
             </div>
 
             <button 
