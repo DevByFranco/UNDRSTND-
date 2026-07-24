@@ -13,7 +13,6 @@ export default async function AdminPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         
-        {/* COLUMNA IZQUIERDA: Formulario */}
         <div className="bg-zinc-900 p-6 rounded-lg border border-zinc-800">
           <h2 className="text-xl font-bold mb-4">Agregar Nuevo Producto</h2>
           
@@ -53,13 +52,14 @@ export default async function AdminPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">URL de la Imagen (Opcional)</label>
-              <textarea 
-                name="image_url"
-                rows={3}
-                className="w-full bg-zinc-950 border border-zinc-800 p-2 rounded-md text-white focus:outline-none focus:border-white" 
-                placeholder="Ej: https://example.com/image.jpg" 
-              />
+              <label className="block text-sm font-medium mb-1">Archivo de la Imagen</label>
+              <input 
+              type="file" 
+              name="image" 
+              accept="image/*" // Solo permite seleccionar imágenes
+                className="w-full bg-zinc-950 border border-zinc-800 p-2 rounded-md text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-white file:text-black hover:file:bg-zinc-200 cursor-pointer"
+              required
+            />
             </div>
 
             <button 
