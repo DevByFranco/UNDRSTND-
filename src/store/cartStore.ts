@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 
-// Definimos la estructura de un producto en el carrito
 export interface CartItem {
   id: string
   name: string
@@ -9,36 +8,51 @@ export interface CartItem {
   quantity: number
 }
 
-// Definimos las acciones que puede hacer nuestra tienda
+// 1. Agregamos las nuevas funciones a la interfaz
 interface CartState {
   items: CartItem[]
   addToCart: (product: Omit<CartItem, 'quantity'>) => void
+  increaseQuantity: (id: string) => void
+  decreaseQuantity: (id: string) => void
   totalItems: () => number
 }
 
-// Creamos la memoria global
 export const useCartStore = create<CartState>((set, get) => ({
   items: [],
   
   addToCart: (product) => {
     set((state) => {
-      // Revisamos si el producto ya está en el carrito
       const existingItem = state.items.find(item => item.id === product.id)
       
       if (existingItem) {
-        // Si existe, le sumamos 1 a la cantidad
         return {
           items: state.items.map(item =>
             item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
           )
         }
       }
-      // Si no existe, lo agregamos con cantidad 1
       return { items: [...state.items, { ...product, quantity: 1 }] }
     })
   },
 
-  // Función para contar cuántas cosas hay en total
+  // 2. Función para sumar cantidad
+  increaseQuantity: (id) => {
+    set((state) => ({
+      items: state.items.map(item => 
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    }))
+  },
+
+  // 3. Función para restar cantidad (y si llega a 0, se filtra/elimina)
+  decreaseQuantity: (id) => {
+    set((state) => ({
+      items: state.items.map(item => 
+        item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+      ).filter(item => item.quantity > 0)
+    }))
+  },
+
   totalItems: () => {
     return get().items.reduce((total, item) => total + item.quantity, 0)
   }
