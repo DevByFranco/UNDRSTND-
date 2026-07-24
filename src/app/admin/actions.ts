@@ -71,3 +71,9 @@ export async function deleteProduct(formData: FormData) {
   revalidatePath('/admin')
   revalidatePath('/')
 }
+
+export async function logout() {
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  revalidatePath('/login')
+}

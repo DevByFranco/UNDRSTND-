@@ -9,14 +9,15 @@ export default async function AdminPage() {
 
   return (
     <div className="max-w-7xl mx-auto p-8 text-white">
+      {/* Encabezado limpio */}
       <h1 className="text-3xl font-bold mb-8">Panel de Administración</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
         
+        {/* COLUMNA IZQUIERDA: Formulario de Creación */}
         <div className="bg-zinc-900 p-6 rounded-lg border border-zinc-800">
           <h2 className="text-xl font-bold mb-4">Agregar Nuevo Producto</h2>
           
-          {/* Conectamos la Server Action en el atributo 'action' */}
           <form action={createProduct} className="flex flex-col gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Nombre del producto</label>
@@ -54,12 +55,12 @@ export default async function AdminPage() {
             <div>
               <label className="block text-sm font-medium mb-1">Archivo de la Imagen</label>
               <input 
-              type="file" 
-              name="image" 
-              accept="image/*" // Solo permite seleccionar imágenes
+                type="file" 
+                name="image" 
+                accept="image/*"
                 className="w-full bg-zinc-950 border border-zinc-800 p-2 rounded-md text-zinc-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-white file:text-black hover:file:bg-zinc-200 cursor-pointer"
-              required
-            />
+                required
+              />
             </div>
 
             <button 
@@ -71,7 +72,7 @@ export default async function AdminPage() {
           </form>
         </div>
 
-        {/* COLUMNA DERECHA: Tabla con Datos Reales */}
+        {/* COLUMNA DERECHA: Tabla de Productos */}
         <div className="bg-zinc-900 p-6 rounded-lg border border-zinc-800">
           <h2 className="text-xl font-bold mb-4">Productos Existentes ({products.length})</h2>
           
@@ -81,12 +82,12 @@ export default async function AdminPage() {
                 <tr className="border-b border-zinc-800 text-zinc-400">
                   <th className="py-3 px-2 font-medium">Nombre</th>
                   <th className="py-3 px-2 font-medium">Precio</th>
+                  <th className="py-3 px-2 font-medium text-right">Acción</th>
                 </tr>
               </thead>
               <tbody>
                 {products.length === 0 ? (
                   <tr>
-                    {/* Cambiamos colSpan a 3 porque ahora hay 3 columnas */}
                     <td colSpan={3} className="py-4 text-center text-zinc-500">
                       No hay productos registrados aún.
                     </td>
