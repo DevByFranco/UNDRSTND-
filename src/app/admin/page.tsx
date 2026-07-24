@@ -2,9 +2,19 @@ import prisma from '@/lib/prisma'
 import { createProduct, deleteProduct } from './actions'
 import ImageUpload from '@/components/ImageUpload'
 
+// 1. Definimos la interfaz del producto para TypeScript
+interface Product {
+  id: string
+  name: string
+  price: number
+  description?: string | null
+  image_url?: string | null
+  createdAt?: Date
+}
+
 export default async function AdminPage() {
   // Traemos los productos directamente de la base de datos de Supabase
-  const products = await prisma.product.findMany({
+  const products: Product[] = await prisma.product.findMany({
     orderBy: { createdAt: 'desc' }, // Los más recientes primero
   })
 
@@ -54,7 +64,6 @@ export default async function AdminPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-1">Archivo de la Imagen</label>
               <ImageUpload />
             </div>
 
@@ -88,7 +97,7 @@ export default async function AdminPage() {
                     </td>
                   </tr>
                 ) : (
-                  products.map((product) => (
+                  products.map((product: Product) => (
                     <tr key={product.id} className="border-b border-zinc-800/50 hover:bg-zinc-800/20 transition-colors">
                       <td className="py-4 px-2 font-medium">{product.name}</td>
                       <td className="py-4 px-2">${product.price.toLocaleString('es-CO')}</td>
